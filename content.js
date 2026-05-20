@@ -50,8 +50,9 @@ async function getModelMultiplier() {
             currentServerZone = "Google Data Center (Europe)";
             currentIntensity = 250; 
         }
-        if (rawHTML.includes(">Raisonnement<")) return { nom: "RAISONNEMENT (Lourd)", mult: 15.0 };
-        if (rawHTML.includes(">Pro<")) return { nom: "PRO (Gemini 1.5 Pro)", mult: 5.0 };
+        if (rawHTML.includes(">Flash-Lite<")) return { nom: "Flash-Lite (Léger)", mult: 1.0 };
+        if (rawHTML.includes(">Flash<")) return { nom: "Flash (Moyen)", mult: 5.0 };
+        if (rawHTML.includes(">Pro<")) return { nom: "PRO (Gemini 1.5 Pro)", mult: 10.0 };
         return { nom: "Gemini Standard", mult: 1.0 };
     }
 
