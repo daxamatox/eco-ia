@@ -35,17 +35,24 @@ window.addEventListener('EcoIA_ZoneDetected', (e) => {
 // =========================================================
 
 async function getModelMultiplier() {
-    const rawHTML = document.body.innerHTML;
+    // On cible le span qui contient le nom du modèle
+    // On cherche les éléments qui contiennent la classe "picker-primary-text" ou qui sont dans un bouton
+    const modelSpan = document.querySelector('span.picker-primary-text') || 
+                      document.querySelector('[data-testid="model-selector"] span');
 
-    // Configuration par défaut si l'intercepteur n'a pas encore répondu
-    if (currentServerZone === "Zone inconnue") {
-        currentServerZone = "Google Data Center (Europe)";
-        currentIntensity = 250; 
-    }
+    const modelName = modelSpan ? modelSpan.innerText : "";
     
-    if (rawHTML.includes(">Flash-Lite<")) return { nom: "Flash-Lite (Léger)", mult: 1.0 };
-    if (rawHTML.includes(">Flash<")) return { nom: "Flash (Moyen)", mult: 5.0 };
-    if (rawHTML.includes(">Pro<")) return { nom: "PRO (Gemini 1.5 Pro)", mult: 10.0 };
+    console.log("[Eco-IA] Modèle détecté dans le span :", modelName);
+
+    if (modelName.includes("Pro")) {
+        return { nom: "PRO (Gemini 1.5 Pro)", mult: 10.0 };
+    }
+    if (modelName.includes("Flash-Lite")) {
+        return { nom: "Flash-Lite (Léger)", mult: 1.0 };
+    }
+    if (modelName.includes("Flash")) {
+        return { nom: "Flash (Moyen)", mult: 5.0 };
+    }
     
     return { nom: "Gemini Standard", mult: 1.0 };
 }
