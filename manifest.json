@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Eco-IA",
-  "version": "3.0",
-  "description": "Mesure l'impact carbone de vos requêtes IA en temps réel.",
+  "name": "Eco-IA Tracker (Gemini)",
+  "version": "3.1",
+  "description": "Mesure l'impact carbone et hydrique de vos requêtes Gemini en temps réel.",
   "permissions": [
     "storage"
   ],
@@ -11,11 +11,11 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://chatgpt.com/*","https://gemini.google.com/*"],
+      "matches": ["https://gemini.google.com/*"],
       "js": ["data.js", "content.js"]
     },
     {
-      "matches": ["https://chatgpt.com/*","https://gemini.google.com/*"],
+      "matches": ["https://gemini.google.com/*"],
       "js": ["data.js", "inject.js"],
       "world": "MAIN"
     }
@@ -23,7 +23,7 @@
   "web_accessible_resources": [
     {
       "resources": ["inject.js", "data.js"],
-      "matches": ["https://chatgpt.com/*","https://gemini.google.com/*"]
+      "matches": ["https://gemini.google.com/*"]
     }
   ]
 }
