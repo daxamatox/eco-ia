@@ -18,7 +18,7 @@ const CARBON_INTENSITY = {
 window.addEventListener('EcoIA_ZoneDetected', (e) => {
     const code = e.detail.code; // On récupère directement "FRA", "CDG", etc.
     
-    // Accès direct au dictionnaire, plus besoin de boucle !
+    // Accès direct au dictionnaire
     if (CARBON_INTENSITY[code]) {
         currentServerZone = CARBON_INTENSITY[code].nom;
         currentIntensity = CARBON_INTENSITY[code].carbon;
