@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Eco-IA",
-  "version": "1.1",
+  "version": "3.0",
   "description": "Mesure l'impact carbone de vos requêtes IA en temps réel.",
   "permissions": [
     "storage"

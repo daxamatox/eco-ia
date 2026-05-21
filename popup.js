@@ -7,15 +7,15 @@ function setupUserLocation() {
     if (!select) return;
 
     // Remplissage du menu avec le dictionnaire 'airports' (issu de data.js)
-    // On trie par nom de ville (valeur) plutôt que par code IATA
-    const entries = Object.entries(airports).sort((a, b) => a[1].localeCompare(b[1]));
-    
-    entries.forEach(([code, name]) => {
-        const option = document.createElement('option');
-        option.value = code;
-        option.textContent = name;
-        select.appendChild(option);
-    });
+    if (typeof airports !== 'undefined') {
+        const entries = Object.entries(airports).sort((a, b) => a[1].localeCompare(b[1]));
+        entries.forEach(([code, name]) => {
+            const option = document.createElement('option');
+            option.value = code;
+            option.textContent = name;
+            select.appendChild(option);
+        });
+    }
 
     // Charger la ville déjà sauvegardée par l'utilisateur
     chrome.storage.local.get(['userCityCode'], (res) => {
@@ -36,23 +36,35 @@ function setupUserLocation() {
 // =========================================================
 
 function updateDisplay() {
-    chrome.storage.local.get(['totalTokens', 'totalEnergy', 'dernierModele', 'derniereZone'], function(data) {
-        // Récupération de l'énergie en Wh (calculée dans content.js)
+    // CORRECTION : On demande 'requetesCount' à la place de 'totalTokens'
+    chrome.storage.local.get(['requetesCount', 'totalEnergy', 'dernierModele', 'derniereZone'], function(data) {
+        // Récupération des valeurs du stockage local
         const energyWh = data.totalEnergy || 0;
-        const co2mg = data.totalTokens || 0;
-
-        // Calcul de l'eau : ~0.5ml par Wh consommé
-        // On affiche en Litres dans ton HTML (donc / 1000)
+        const count = data.requetesCount || 0; // Récupère le vrai compteur de content.js
+        
+        // Calcul de l'eau : ~0.5ml par Wh consommé -> affichage en Litres (/ 1000)
         const eauLitres = (energyWh * 0.5) / 1000;
         
         // Conversion Wh en kWh pour l'affichage
         const elecKWh = energyWh / 1000;
 
+        // --- NETTOYAGE DU TEXTE DU SERVEUR ---
+        let zoneBrute = data.derniereZone || "Détection...";
+        if (zoneBrute.includes('(')) {
+            zoneBrute = zoneBrute.split('(')[0].trim();
+        }
+
         // Mise à jour du DOM
         document.getElementById('eau').innerText = eauLitres.toFixed(3);
         document.getElementById('elec').innerText = elecKWh.toFixed(5);
-        document.getElementById('region').innerText = data.derniereZone || "Détection...";
+        document.getElementById('region').innerText = zoneBrute;
         document.getElementById('modeleTxt').innerText = data.dernierModele || "Aucun";
+        
+        // CORRECTION : On injecte la valeur dans l'élément HTML id="countDisplay"
+        const countElem = document.getElementById('countDisplay');
+        if (countElem) {
+            countElem.innerText = count;
+        }
     });
 }
 
@@ -61,19 +73,25 @@ function updateDisplay() {
 // =========================================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Initialiser l'interface
     setupUserLocation();
     updateDisplay();
-});
 
-// Bouton Réinitialiser
-document.getElementById('reset').addEventListener('click', function() {
-    if (confirm("Voulez-vous vraiment réinitialiser toutes vos statistiques ?")) {
-        chrome.storage.local.set({ 
-            totalTokens: 0, 
-            totalEnergy: 0, 
-            dernierModele: "Réinitialisé" 
-        }, () => {
-            updateDisplay();
+    // 2. Configurer le Bouton Réinitialiser
+    const resetBtn = document.getElementById('reset');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+            if (confirm("Voulez-vous vraiment réinitialiser toutes vos statistiques ?")) {
+                // CORRECTION : On remet 'requetesCount' à 0 lors du reset
+                chrome.storage.local.set({ 
+                    requetesCount: 0, 
+                    totalEnergy: 0, 
+                    dernierModele: "Aucun",
+                    derniereZone: "Détection..."
+                }, () => {
+                    updateDisplay();
+                });
+            }
         });
     }
 });

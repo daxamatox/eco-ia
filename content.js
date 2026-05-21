@@ -93,23 +93,25 @@ async function saveImpact(promptText) {
     const stats = await getModelMultiplier();
     
     // 1. Calcul de l'énergie brute (Wh)
-    // 0.000002 kWh = 0.002 Wh par caractère
     const energyWh = (promptText.length * stats.mult * 0.002);
     
     // 2. Calcul du CO2 (mg) basé sur l'intensité du serveur détecté
     const calculatedCO2mg = energyWh * currentIntensity; 
 
-    chrome.storage.local.get(['totalTokens', 'totalEnergy'], function(result) {
-        const nouveauCO2 = (result.totalTokens || 0) + calculatedCO2mg;
-        const nouvelleEnergie = (result.totalEnergy || 0) + energyWh;
-        
+    // On récupère les 3 clés distinctes
+    chrome.storage.local.get(['totalTokens', 'totalEnergy', 'requetesCount'], function(result) {
+        const nouveauCO2 = (result.totalTokens || 0) + calculatedCO2mg; // Le CO2 va dans totalTokens
+        const nouvelleEnergie = (result.totalEnergy || 0) + energyWh;    // L'énergie va dans totalEnergy
+        const nouveauCount = (result.requetesCount || 0) + 1;           // Le compteur prend STRICTEMENT +1
+
         chrome.storage.local.set({ 
-            totalTokens: nouveauCO2,      // Stocké en mg
-            totalEnergy: nouvelleEnergie, // Stocké en Wh
+            totalTokens: nouveauCO2,       // Gardé en mémoire au cas où
+            totalEnergy: nouvelleEnergie,
+            requetesCount: nouveauCount,   // Là, c'est un vrai compteur propre !
             dernierModele: stats.nom,
             derniereZone: currentServerZone
         }, function() {
-            console.log(`[Eco-IA] +${calculatedCO2mg.toFixed(0)}mg CO2 | ${energyWh.toFixed(3)}Wh | Zone: ${currentServerZone}`);
+            console.log(`[Eco-IA] +${calculatedCO2mg.toFixed(0)}mg CO2 | ${energyWh.toFixed(3)}Wh | Requête n°${nouveauCount} | Zone: ${currentServerZone}`);
         });
     });
 }

@@ -3,28 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <style>
-    body { width: 230px; font-family: 'Segoe UI', sans-serif; padding: 15px; background: #f4f7f6; color: #333; }
-    h3 { margin: 0 0 10px 0; color: #2d6a4f; font-size: 16px; border-bottom: 2px solid #2d6a4f; padding-bottom: 5px; }
-    .info { font-size: 11px; color: #666; margin-bottom: 15px; }
+    body { width: 240px; font-family: 'Segoe UI', sans-serif; padding: 15px; background: #f4f7f6; color: #333; }
+    h3 { margin: 0 0 10px 0; color: #2d6a4f; font-size: 16px; border-bottom: 2px solid #2d6a4f; padding-bottom: 5px; text-align: center; }
+    .info { font-size: 11px; color: #666; margin-bottom: 15px; background: #eef5f1; padding: 8px; border-radius: 5px; line-height: 1.6; }
     .stat { background: white; padding: 10px; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
     .label { display: block; font-size: 12px; color: #888; }
     .value { font-size: 18px; font-weight: bold; color: #1b4332; }
     .model-tag { font-weight: bold; color: #d62828; }
-    button { width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2d6a4f; color: white; cursor: pointer; font-weight: bold; margin-top: 5px; }
-    button:hover { background: #1b4332; }
+    #reset { width: 100%; padding: 8px; border: none; border-radius: 5px; background: #e74c3c; color: white; cursor: pointer; font-weight: bold; margin-top: 10px; transition: background 0.2s; }
+    #reset:hover { background: #c0392b; }
   </style>
 </head>
 <body>
-  <h3>Eco-IA Tracker</h3>
+  <h3>🌱 Eco-IA Tracker</h3>
+  
   <div class="info">
-  <b>Utilisateur :</b> 
-  <select id="userCitySelect" style="font-size: 11px; border: 1px solid #2d6a4f; border-radius: 3px; background: white; color: #333; max-width: 150px;">
-    <option value="">Sélectionnez votre ville</option>
-  </select>
-  <br>
-  <b>Serveur :</b> <span id="region">Détection...</span><br>
-  <b>Modèle :</b> <span id="modeleTxt" class="model-tag">Aucun</span>
-</div>
+    <b>Utilisateur :</b> 
+    <select id="userCitySelect" style="font-size: 11px; border: 1px solid #2d6a4f; border-radius: 3px; background: white; color: #333; max-width: 130px;">
+      <option value="">Sélectionnez votre ville</option>
+    </select>
+    <br>
+    <b>Serveur :</b> <span id="region">Détection...</span><br>
+    <b>Modèle :</b> <span id="modeleTxt" class="model-tag">Aucun</span>
+  </div>
+
+  <div class="stat" style="background: #eef7f4;">
+    <span class="label" style="color: #2d6a4f;">📊 Total Requêtes</span>
+    <span id="countDisplay" class="value" style="color: #2d6a4f;">0</span>
+  </div>
 
   <div class="stat">
     <span class="label">💧 Eau consommée</span>
@@ -36,7 +42,8 @@
     <span id="elec" class="value">0</span> <small>kWh</small>
   </div>
 
-  <button id="reset">Réinitialiser</button>
+  <button id="reset">Réinitialiser les stats</button>
+
   <script src="data.js"></script>
   <script src="popup.js"></script>
 </body>
