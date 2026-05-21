@@ -6,28 +6,26 @@ let currentServerZone = "Zone inconnue";
 let currentIntensity = 475; // Moyenne mondiale par défaut (gCO2/kWh)
 
 const CARBON_INTENSITY = {
-    "France": 55,
-    "United States": 380,
-    "Netherlands": 300,
-    "Germany": 350,
-    "Ireland": 320,
-    "Belgium": 150,
-    "United Kingdom": 250,
-    "Default": 475
+    "CDG": { nom: "Paris", carbon: 55 },       // France : Nucléaire + Renouvelable
+    "FRA": { nom: "Francfort", carbon: 350 },  // Allemagne : Charbon + Renouvelable
+    "AMS": { nom: "Amsterdam", carbon: 250 },  // Pays-Bas : Gaz + Forte hausse Éolien
+    "BRU": { nom: "Bruxelles", carbon: 150 },  // Belgique : Nucléaire + Éolien
+    "DUB": { nom: "Dublin", carbon: 330 },     // Irlande : Éolien + Fort backup Gaz
+    "LHR": { nom: "Londres", carbon: 210 },    // Royaume-Uni : Éolien offshore dominant
+    "IAD": { nom: "Virginie", carbon: 380 }    // États-Unis (Hub Google Est) : Mix national moyen
 };
 
 window.addEventListener('EcoIA_ZoneDetected', (e) => {
-    currentServerZone = e.detail.name;
+    const code = e.detail.code; // On récupère directement "FRA", "CDG", etc.
     
-    let found = false;
-    for (let country in CARBON_INTENSITY) {
-        if (currentServerZone.includes(country)) {
-            currentIntensity = CARBON_INTENSITY[country];
-            found = true;
-            break;
-        }
+    // Accès direct au dictionnaire, plus besoin de boucle !
+    if (CARBON_INTENSITY[code]) {
+        currentServerZone = CARBON_INTENSITY[code].nom;
+        currentIntensity = CARBON_INTENSITY[code].carbon;
+    } else {
+        currentServerZone = `Hub Google (${code})`;
+        currentIntensity = 480; // Moyenne mondiale si code inconnu
     }
-    if (!found) currentIntensity = CARBON_INTENSITY["Default"];
     
     console.log(`[Eco-IA] Serveur détecté : ${currentServerZone} (${currentIntensity}g/kWh)`);
 });

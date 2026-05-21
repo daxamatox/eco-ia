@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 chrome.storage.local.set({ 
                     requetesCount: 0, 
                     totalEnergy: 0, 
+                    totalTokens: 0,
                     dernierModele: "Aucun",
                     derniereZone: "Détection..."
                 }, () => {
@@ -56,5 +57,3 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
-    }
-});
