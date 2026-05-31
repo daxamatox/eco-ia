@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Eco-IA Tracker (Gemini)",
-  "version": "3.0",
-  "description": "Mesure l'impact carbone et hydrique de vos requêtes Gemini en temps réel.",
+  "version": "4.0",
+  "description": "Mesure l'impact carbone et électrique de vos requêtes Gemini en temps réel.",
   "permissions": [
     "storage"
   ],
