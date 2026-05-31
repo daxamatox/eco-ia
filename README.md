@@ -1,6 +1,6 @@
 # 🌱 Eco-IA Tracker — Extension Chrome pour Gemini
 
-Extension Chrome qui mesure en temps réel l'**impact carbone** et la **consommation électrique** de chaque requête envoyée à Gemini (Google AI Studio / gemini.google.com).
+Extension Chrome qui mesure en temps réel l'**impact carbone** et la **consommation électrique** de chaque requête envoyée à Gemini (gemini.google.com).
 
 ---
 
