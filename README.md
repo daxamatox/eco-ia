@@ -116,7 +116,7 @@ CO₂ = (0.000308 / 1000) × 16.30 = 0.000005 g ≈ 5 µg
 - **Touche `Entrée`** sans Shift
 - **Clic sur le bouton Envoyer** (`aria-label="Envoyer"` ou `"Send"`)
 
-À chaque envoi, il lit le contenu de la zone de saisie (`contenteditable` ou `textarea`), attend 600ms (le temps que la réponse commence à arriver), puis déclenche le calcul.
+À chaque envoi, il lit le contenu de la zone de saisie, attend 600ms (le temps que la réponse commence à arriver), puis déclenche le calcul.
 
 ---
 
