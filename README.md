@@ -13,8 +13,7 @@ eco-ia/
 ├── content.js      → Script de contenu — calcule l'impact et sauvegarde dans le storage
 ├── popup.html      → Interface utilisateur de l'extension
 ├── popup.js        → Logique d'affichage du popup
-└── data/
-    └── 2024.csv    → Données officielles Google Cloud Carbon Footprint 2024
+
 ```
 
 ---
@@ -93,7 +92,7 @@ CO₂ = (E_totale / 1000) × CI_régional
 
 > Le **PUE** (Power Usage Effectiveness) est le coefficient d'efficacité du datacenter. Google affiche un PUE moyen de 1.1, ce qui signifie que pour 1 Wh utile au GPU, le datacenter consomme 1.1 Wh au total (refroidissement, pertes électriques inclus).
 
-> Le **decode** (génération des tokens de sortie) consomme environ 2× plus d'énergie par token que le **prefill** (traitement du prompt en entrée), car il est séquentiel et ne peut pas être parallélisé.
+> Le **decode** (génération des tokens de sortie) consomme environ 2× plus d'énergie par token que le **prefill** (traitement du prompt en entrée)
 
 #### Exemple concret (Paris) :
 ```
